@@ -31,9 +31,11 @@ public class App {
 					addEmp.addNewEmployee(empNr, name, profession);
 					break;
 
+				// Coice 2, view existing employees.	
 				} else if (menu.equalsIgnoreCase("2")) {
 					getEmp.getEmployees();
 					break;
+				// Choice 3, exit application.	
 				} else if (menu.equalsIgnoreCase("3")) {
 					break;
 				}
