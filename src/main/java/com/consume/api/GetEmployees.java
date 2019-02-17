@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GetEmployees {
 	
@@ -14,6 +18,7 @@ public class GetEmployees {
 		
 		URL url = new URL(newUrl);
 		String readLine = null;
+		ArrayList<User> users = new ArrayList();
 		
 		try {
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -24,9 +29,16 @@ public class GetEmployees {
 				response.append(readLine);
 			}
 			
-			int lenght = response.length();
-			for (int i=0; i < lenght; i++) {
-				System.out.println(response.toString());
+			JSONArray jArr = new JSONArray(response);
+			
+			for (int i=0; i < jArr.length(); i++) {
+				JSONObject jObj = jArr.getJSONObject(i);
+				
+				int id = jObj.getInt("id");
+				String name = jObj.getString("name");
+				String profession = jObj.getString("profession");
+				
+				users.add(new User(id, name, profession));
 			}
 			
 		} catch (IOException e) {
@@ -34,6 +46,8 @@ public class GetEmployees {
 			e.printStackTrace();
 		}
 		
+		for (User user : users) {
+			System.out.println("Employee-number: " + user.getId() + "\nName: " + user.getName() + "\nJob title: " + user.getProfession());
+		}
 	}
-
 }
